@@ -40,6 +40,6 @@ class UrlController extends AbstractController
                 'statusText' => 'MISSING_ARG_URL'
             ]);
         }
-        $this->urlService->addUrl($longUrl);
+      $url = $this->urlService->addUrl($longUrl);
     }
 }
