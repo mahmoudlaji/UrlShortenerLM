@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UrlRepository;
+use App\Repository\UrlStatisticRepository;
 use App\Service\UrlService;
+use App\Service\UrlStatisticService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,10 +72,7 @@ class UrlController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        if (!$url->getUser()) {
-            return $this->redirect($url->getLongUrl());
-        }
-
+        
     
         return $this->redirect($url->getLongUrl());
     }
