@@ -1,20 +1,95 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Hello HomeController!
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+	<main>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Symfony all project/UrlShortenerLm/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Symfony all project/UrlShortenerLm/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+
+		<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				<div class="overlay-image" style="background-image: url('images/slide.jpg');"></div>
+				<div class="carousel-item active">
+					<div class="container">
+						<div class="carousel-caption text-start">
+							<h1>Le meilleur raccourcisseur d'URL.</h1>
+							<p>Un raccourcisseur d'URL conçu avec des outils puissants pour vous aider à développer et à protéger votre marque.</p>
+
+							<p>
+								<a class="btn btn-lg btn-primary" href="#">Sign up today</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Marketing messaging and featurettes
+												  ================================================== -->
+		<!-- Wrap the rest of the page in another container to center all the content. -->
+		<div
+			class="container marketing">
+
+			<!-- Three columns of text below the carousel -->
+			<div class="row">
+
+				<div class="col-lg-4">
+					<img loading="lazy" width="320" height="180" src="{{ asset('images/illustration-1.png') }}"/>
+					<h2 class="fw-bold">Inspirer la confiance</h2>
+					<p class="text-start">Avec plus de clics, la reconnaissance de la marque et la confiance des consommateurs dans vos communications augmentent, ce qui à son tour inspire encore plus d'engagement avec vos liens.</p>
+				</div>
+
+				<div class="col-lg-4">
+					<img loading="lazy" width="320" height="180" src="{{ asset('images/illustration-2.png') }}"/>
+
+					<h2 class="fw-bold">Boostez vos résultats</h2>
+					<p class="text-start">En plus d'une meilleure délivrabilité et d'un meilleur taux de clics, des statistiques au niveau des liens vous donnent un aperçu crucial de votre engagement afin que votre équipe puisse prendre des décisions plus judicieuses concernant son contenu et ses communications.</p>
+
+				</div>
+				<!-- /.col-lg-4 -->
+
+				<div class="col-lg-4">
+					<img loading="lazy" width="320" height="180" src="{{ asset('images/illustration-3.png') }}"/>
+					<h2 class="fw-bold">Prenez le contrôle</h2>
+					<p class="text-start">Prenez le crédit de votre contenu et apprenez-en plus sur la façon dont il est consommé en activant l'auto-branding, une fonctionnalité qui garantit que votre marque reste dans tout lien raccourci par quelqu'un pointant vers votre site Web.</p>
+
+				</div>
+
+			</div>
+			<!-- /.row -->
+		</div>
+
+		<!-- /.container -->
+
+		{# section start here #}
+		<section class="col col-lg-10 mx-auto mb-5">
+			<div class="card">
+				<div class="card-body">
+					<form id="shortenForm">
+						<div class="col">
+							<div class="input-group">
+								<input type="text" class="form-control form-control-lg" name"url" id"url" placeholder="Votre adresse à réduire" autocomplete="off" required>
+                                <button type="submit" class="btn btn-lg btn-success" id="btnShortenUrl">Réduire l'URL</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</section>
+
+
+		{# section end  #}
+
+		<p class="float-right">
+			<a href="#">Back to top</a>
+		</p>
+		<!-- FOOTER -->
+		<footer class="container">
+
+			<p>&copy; LAJIMI MAHMOUD 2024</p>
+		</footer>
+	</main>
 {% endblock %}
