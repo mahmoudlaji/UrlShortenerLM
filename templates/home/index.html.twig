@@ -18,7 +18,9 @@
 							<p>Un raccourcisseur d'URL conçu avec des outils puissants pour vous aider à développer et à protéger votre marque.</p>
 
 							<p>
-								<a class="btn btn-lg btn-primary" href="#">Sign up today</a>
+							{% if is_granted('IS_ANONYMOUS') %}
+								<a class="btn btn-outline-success me-2" href="{{ path('app_register')}}">Inscription</a>
+							{% endif %}
 							</p>
 						</div>
 					</div>
