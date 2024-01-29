@@ -33,24 +33,28 @@ class UrlController extends AbstractController
     public function add(Request $request): Response
     {
         $longUrl = $request->request->get('url');
-        
+
         if (!$longUrl) {
             return  $this->json([
                 'statusCode' => 400,
                 'statusText' => 'MISSING_ARG_URL'
             ]);
         }
+
         $domain = $this->urlService->parseUrl($longUrl);
-        if(!$domain){
-            return  $this->json([
-            'statusCode'=>500,
-            'statusText'=>'INVALID_ARG_URL'
-        ]);
+
+        if (!$domain) {
+            return $this->json([
+                'statusCode' => 500,
+                'statusText' => 'INVALID_ARG_URL'
+            ]);
         }
-      $url = $this->urlService->addUrl($longUrl, $domain);
-      return $this->json([
-        'link' => $url->getLink(),
-        'longUrl'   => $url->getLngUrl()
-    ]);
+
+        $url = $this->urlService->addUrl($longUrl, $domain);
+
+        return $this->json([
+            'link' => $url->getLink(),
+            'longUrl' => $url->getLongUrl()
+        ]);
     }
 }
