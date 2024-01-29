@@ -57,4 +57,22 @@ class UrlController extends AbstractController
             'longUrl' => $url->getLongUrl()
         ]);
     }
+ /**
+     * @Route("/{hash}", name="url_view")
+     */
+    public function view(string $hash, UrlRepository $urlRepo): Response
+    {
+        $url = $urlRepo->findOneBy(['hash' => $hash]);
+
+        if (!$url) {
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        if (!$url->getUser()) {
+            return $this->redirect($url->getLongUrl());
+        }
+
+    
+        return $this->redirect($url->getLongUrl());
+    }
 }
