@@ -8,23 +8,28 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Stopwatch\Section;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validation;
 
 class UrlService
 {
     private EntityManagerInterface $em;
+    private Security $security;
   
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, Security $security)
     {
         $this->em = $em;
+        $this->security = $security;
        
     }
 
     public function addUrl(string $longUrl, string $domain): Url
     {
         $url = new Url();
+
+        $user = $this->security->getUser();
 
         $hash = $this->generateHash();
         $link = $_SERVER['HTTP_ORIGIN'] . "/$hash";
@@ -34,7 +39,7 @@ class UrlService
 
         $url->setHash($hash);
         $url->setLink($link);
-      
+        $url->setUser($user);
         $url->setCreatedAt(new \DateTime());
 
         $this->em->persist($url);

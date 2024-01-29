@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @method User getUser()
+ */
 class UrlController extends AbstractController
 {
 
@@ -72,8 +75,24 @@ class UrlController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        
     
         return $this->redirect($url->getLongUrl());
+    }
+
+     /**
+     * @Route("/user/links", name="url_list")
+     */
+    public function list(UrlRepository $urlRepo): Response
+    {
+        $user = $this->getUser();
+
+         if (!$user || $user->getUrls()->count() === 0) {
+            return $this->redirectToRoute('app_homepage');
+         }
+
+         return $this->render('url/list.html.twig',[
+            'urls' => $user->getUrls()
+         ]);
+       
     }
 }
