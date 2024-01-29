@@ -17,16 +17,16 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UrlController extends AbstractController
 {
-
     private UrlService $urlService;
+    private UrlStatisticService $urlStatisticService;
 
-
-    public function __construct(UrlService $urlService){
-       $this->urlService = $urlService;
+    public function __construct(UrlService $urlService, UrlStatisticService $urlStatisticService)
+    {
+        $this->urlService = $urlService;
+        $this->urlStatisticService = $urlStatisticService;
     }
-    /**
-     * @Route("/url", name="app_url")
-     */
+
+    #[Route('/url', name: 'url')]
     public function index(): Response
     {
         return $this->render('url/index.html.twig', [
@@ -34,9 +34,7 @@ class UrlController extends AbstractController
         ]);
     }
 
- /**
-     * @Route("/ajax/shorten", name="url_add")
-     */
+    #[Route('/ajax/shorten', name: 'url_add')]
     public function add(Request $request): Response
     {
         $longUrl = $request->request->get('url');
@@ -64,9 +62,8 @@ class UrlController extends AbstractController
             'longUrl' => $url->getLongUrl()
         ]);
     }
- /**
-     * @Route("/{hash}", name="url_view")
-     */
+
+    #[Route('/{hash}', name: 'url_view')]
     public function view(string $hash, UrlRepository $urlRepo): Response
     {
         $url = $urlRepo->findOneBy(['hash' => $hash]);
@@ -75,24 +72,52 @@ class UrlController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-    
+        if (!$url->getUser()) {
+            return $this->redirect($url->getLongUrl());
+        }
+
+        $urlStatistic = $this->urlStatisticService->findOneByUrlAndDate($url, new \DateTime);
+        $this->urlStatisticService->incrementUrlStatistic($urlStatistic);
+
         return $this->redirect($url->getLongUrl());
     }
 
-     /**
-     * @Route("/user/links", name="url_list")
-     */
-    public function list(UrlRepository $urlRepo): Response
+    // #[Route('/ajax/delete/{hash}', name: 'url_delete')]
+    // public function delete(string $hash): Response
+    // {
+    //     return $this->urlService->deleteUrl($hash);
+    // }
+
+    #[Route('/user/links', name: 'url_list')]
+    public function list(): Response
     {
         $user = $this->getUser();
 
-         if (!$user || $user->getUrls()->count() === 0) {
+        if (!$user || $user->getUrls()->count() === 0) {
             return $this->redirectToRoute('app_homepage');
-         }
+        }
 
-         return $this->render('url/list.html.twig',[
+        return $this->render('url/list.html.twig', [
             'urls' => $user->getUrls()
-         ]);
-       
+        ]);
+    }
+
+    #[Route('/statistics/{hash}', name: 'url_statistics')]
+    public function statistics(string $hash, UrlRepository $urlRepo, UrlStatisticRepository $urlStatisticRepo): Response
+    {
+        $url = $urlRepo->findOneBy(['hash' => $hash]);
+
+        if (!$url) {
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        $url_statistics = $urlStatisticRepo->findOneByUrl($url);
+
+        // $chart = $this->urlStatisticService->createChart($url_statistics['labels'], $url_statistics['datasets']['data']);
+
+        return $this->render('url/statistics.html.twig', [
+            // 'chart' => $chart,
+            'domain' => $url->getDomain()
+        ]);
     }
 }

@@ -165,4 +165,13 @@ class Url
 
         return $this;
     }
+    public function getAllClicks(): int
+    {
+
+        $clicks =0;
+        foreach($this->statistics as $statistic) {
+            $clicks += $statistic->getClicks();
+    }
+    return $clicks;
+  }
 }

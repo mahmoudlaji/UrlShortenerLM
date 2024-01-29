@@ -17,33 +17,35 @@
 							</div>
 
 							<p class="float-start mb-1 fw-bold">
+								{{ url.getAllClicks() }}
 								<i class="far fa-chart-bar"></i>
 							</p>
 							<div class="d-flex w-100 justify-content-between ">
-								<a class="text-danger fw-bold"  id="anchor_{{ url.hash }}" href="{{url.link}}" target="_blank">{{ url.link}}</a>
+								<a class="text-danger fw-bold" id="anchor_{{ url.hash }}" href="{{url.link}}" target="_blank">{{ url.link}}</a>
 							</div>
 						</div>
 					{% endfor %}
 				</div>
 			</section>
 		</div>
+
 		<div class="row mt-2">
-			<div class="col-lg-4 col-lg-12 mx-lg-auto justify-content-between">
+			<div class="col-lg-6 col-md-12 justify-content-between mx-lg-auto">
 
 				<div class="card">
 					<div class="card-body">
-
 						<div class="d-flex w-100 justify-content-between" id="actions">
 							<button class="btn btn-sm btn-primary" id="btnCopy" disabled>Copier</button>
 							<button class="btn btn-sm btn-success" id="btnStats" disabled>Statistiques</button>
 							<button class="btn btn-sm btn-danger" id="btnDelete" disabled>Supprimer</button>
-						</div>
 
+						</div>
 					</div>
 				</div>
 
 			</div>
 		</div>
+
 	</div>
 
 {% endblock %}
