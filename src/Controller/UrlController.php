@@ -40,6 +40,17 @@ class UrlController extends AbstractController
                 'statusText' => 'MISSING_ARG_URL'
             ]);
         }
-      $url = $this->urlService->addUrl($longUrl);
+        $domain = $this->urlService->parseUrl($longUrl);
+        if(!$domain){
+            return  $this->json([
+            'statusCode'=>500,
+            'statusText'=>'INVALID_ARG_URL'
+        ]);
+        }
+      $url = $this->urlService->addUrl($longUrl, $domain);
+      return $this->json([
+        'link' => $url->getLink(),
+        'longUrl'   => $url->getLngUrl()
+    ]);
     }
 }
