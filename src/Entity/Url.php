@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UrlRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,16 @@ class Url
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="urls")
      */
     private $User;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UrlStatistic::class, mappedBy="url", orphanRemoval=true)
+     */
+    private $statistics;
+
+    public function __construct()
+    {
+        $this->statistics = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +132,36 @@ class Url
     public function setUser(?User $User): self
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UrlStatistic>
+     */
+    public function getStatistics(): Collection
+    {
+        return $this->statistics;
+    }
+
+    public function addStatistic(UrlStatistic $statistic): self
+    {
+        if (!$this->statistics->contains($statistic)) {
+            $this->statistics[] = $statistic;
+            $statistic->setUrl($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatistic(UrlStatistic $statistic): self
+    {
+        if ($this->statistics->removeElement($statistic)) {
+            // set the owning side to null (unless already changed)
+            if ($statistic->getUrl() === $this) {
+                $statistic->setUrl(null);
+            }
+        }
 
         return $this;
     }
