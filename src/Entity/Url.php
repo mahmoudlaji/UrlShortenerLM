@@ -20,7 +20,7 @@ class Url
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $hach;
+    private $hash;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -47,14 +47,14 @@ class Url
         return $this->id;
     }
 
-    public function getHach(): ?string
+    public function getHash(): ?string
     {
-        return $this->hach;
+        return $this->hash;
     }
 
-    public function setHach(string $hach): self
+    public function setHash(string $hash): self
     {
-        $this->hach = $hach;
+        $this->hash = $hash;
 
         return $this;
     }
