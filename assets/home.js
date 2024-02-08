@@ -29,7 +29,7 @@ const handleData = function(data) {
     inputUrl.value = data.link;
     btnShortenUrl.innerText = "Copier";
 
-    btnShortenUrl.addEventListener('click', function(e) {
+    btnShortenUrl.addEventListener('click', function(e) 
        e.preventDefault();
 
        inputUrl.select();
