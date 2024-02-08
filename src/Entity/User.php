@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Url::class, mappedBy="User")
+     * @ORM\OneToMany(targetEntity=Url::class, mappedBy="user")
      */
     private $urls;
 
@@ -156,7 +156,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Url>
+     * @return Collection|Url[]
      */
     public function getUrls(): Collection
     {

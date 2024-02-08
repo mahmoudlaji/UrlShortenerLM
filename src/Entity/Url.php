@@ -47,7 +47,7 @@ class Url
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="urls")
      */
-    private $User;
+    private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=UrlStatistic::class, mappedBy="url", orphanRemoval=true)
@@ -126,18 +126,18 @@ class Url
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(?User $User): self
+    public function setUser(?User $user): self
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, UrlStatistic>
+     * @return Collection|UrlStatistic[]
      */
     public function getStatistics(): Collection
     {
@@ -165,13 +165,15 @@ class Url
 
         return $this;
     }
+
     public function getAllClicks(): int
     {
+        $clicks = 0;
 
-        $clicks =0;
-        foreach($this->statistics as $statistic) {
+        foreach ($this->statistics as $statistic) {
             $clicks += $statistic->getClicks();
+        }
+
+        return $clicks;
     }
-    return $clicks;
-  }
 }
