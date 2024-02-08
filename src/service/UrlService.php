@@ -15,13 +15,15 @@ use Symfony\Component\Validator\Validation;
 class UrlService
 {
     private EntityManagerInterface $em;
+    private UrlRepository $urlRepo;
     private Security $security;
   
 
-    public function __construct(EntityManagerInterface $em, Security $security)
+    public function __construct(EntityManagerInterface $em, Security $security, UrlRepository $urlRepo)
     {
         $this->em = $em;
         $this->security = $security;
+        $this->urlRepo = $urlRepo;
        
     }
 
@@ -63,6 +65,25 @@ class UrlService
         }
 
         return $domain;
+    }
+
+    public function deleteUrl(string $hash){
+        $url = $this->urlRepo->findOneBy(['hash' => $hash]);
+
+        if (!$url) {
+            return new JsonResponse([
+                'statusCode' => 'URL_NOT_FOUND',
+                'statusText' => "Le lien n'a pas été trouvé !"
+            ]);
+        }
+
+        $this->em->remove($url);
+        $this->em->flush();
+
+        return new JsonResponse([
+            'statusCode' => 'DELETE_SUCCESSFUL',
+            'statusText' => 'Le lien a bien été supprimé !'
+        ]);
     }
 
     public function generateHash(int $offset = 0, int $length = 8): string

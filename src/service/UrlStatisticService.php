@@ -6,18 +6,19 @@ use App\Entity\Url;
 use App\Entity\UrlStatistic;
 use App\Repository\UrlStatisticRepository;
 use Doctrine\ORM\EntityManagerInterface;
-
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class UrlStatisticService
 {
     private EntityManagerInterface $em;
     private UrlStatisticRepository $urlStatisticRepo;
-   
+    private ChartBuilderInterface $chartBuilder;
 
-    public function __construct(EntityManagerInterface $em, UrlStatisticRepository $urlStatisticRepo)
+    public function __construct(EntityManagerInterface $em, UrlStatisticRepository $urlStatisticRepo, ChartBuilderInterface $chartBuilder)
     {
         $this->em = $em;
-       
+        $this->chartBuilder = $chartBuilder;
         $this->urlStatisticRepo = $urlStatisticRepo;
     }
 
@@ -47,5 +48,30 @@ class UrlStatisticService
         return $urlStatistic;
     }
 
+    public function createChart(array $labels, $data): Chart
+    {
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_BAR);
 
+        $chart->setData([
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Nombre total de clics',
+                    'backgroundColor' => 'rgb(13,110, 253)',
+                    'borderColor' => 'rgb(13,110, 253)',
+                    'data' => $data
+                ]
+            ]
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'yAxes' => [
+                    ['ticks' => ['min' => 0]]
+                ]
+            ]
+        ]);
+
+        return $chart;
+    }
 }

@@ -18,7 +18,7 @@ class UrlStatistic
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=url::class, inversedBy="statistics")
+     * @ORM\ManyToOne(targetEntity=Url::class, inversedBy="statistics")
      * @ORM\JoinColumn(nullable=false)
      */
     private $url;
@@ -38,12 +38,12 @@ class UrlStatistic
         return $this->id;
     }
 
-    public function getUrl(): ?url
+    public function getUrl(): ?Url
     {
         return $this->url;
     }
 
-    public function setUrl(?url $url): self
+    public function setUrl(?Url $url): self
     {
         $this->url = $url;
 

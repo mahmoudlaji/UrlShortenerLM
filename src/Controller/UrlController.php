@@ -82,11 +82,11 @@ class UrlController extends AbstractController
         return $this->redirect($url->getLongUrl());
     }
 
-    // #[Route('/ajax/delete/{hash}', name: 'url_delete')]
-    // public function delete(string $hash): Response
-    // {
-    //     return $this->urlService->deleteUrl($hash);
-    // }
+    #[Route('/ajax/delete/{hash}', name: 'url_delete')]
+    public function delete(string $hash): Response
+    {
+        return $this->urlService->deleteUrl($hash);
+    }
 
     #[Route('/user/links', name: 'url_list')]
     public function list(): Response
@@ -113,10 +113,10 @@ class UrlController extends AbstractController
 
         $url_statistics = $urlStatisticRepo->findOneByUrl($url);
 
-        // $chart = $this->urlStatisticService->createChart($url_statistics['labels'], $url_statistics['datasets']['data']);
+        $chart = $this->urlStatisticService->createChart($url_statistics['labels'], $url_statistics['datasets']['data']);
 
         return $this->render('url/statistics.html.twig', [
-            // 'chart' => $chart,
+            'chart' => $chart,
             'domain' => $url->getDomain()
         ]);
     }
